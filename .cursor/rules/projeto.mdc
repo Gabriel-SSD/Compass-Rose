@@ -1,0 +1,19 @@
+---
+description: Contexto do projeto Compass Rose
+alwaysApply: true
+---
+
+# Compass Rose
+
+Pipelines de dados ponta a ponta com Astro CLI e Airflow 3 (runtime 3.3-11).
+
+Fontes previstas; o desenho do pipeline ainda está aberto:
+
+- API Open-Meteo (https://open-meteo.com/en/docs)
+- Cloud Storage com arquivos manuais, para sensores e conexões
+
+- Documentação do repositório em português.
+- DAGs só em `dags/`. Apoio em `include/`. Plugins em `plugins/`.
+- Não colocar em `dags/` arquivos que não sejam DAGs; o `.airflowignore` usa glob.
+- Não versionar `airflow_settings.yaml`. Não commitar `.env`.
+- Não implementar pipeline novo sem o usuário pedir.

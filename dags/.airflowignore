@@ -1,0 +1,16 @@
+glob
+
+# Arquivos que não são DAGs. Ficam fora do parse do scheduler.
+*.md
+*.rst
+*.yaml
+*.yml
+*.json
+*.csv
+*.tsv
+*.txt
+*.ipynb
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/

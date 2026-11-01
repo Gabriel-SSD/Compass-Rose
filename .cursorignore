@@ -1,0 +1,9 @@
+.venv/
+.astro/standalone/
+.astro/worktrees/
+logs/
+__pycache__/
+*.pyc
+airflow.db
+airflow.cfg
+.env
