@@ -1,5 +1,5 @@
 ---
-description: Contexto do projeto Compass Rose
+description: Contexto do projeto Compass Rose e a estrutura do repositório Astro
 alwaysApply: true
 ---
 
@@ -7,13 +7,24 @@ alwaysApply: true
 
 Pipelines de dados ponta a ponta com Astro CLI e Airflow 3 (runtime 3.3-11).
 
-Fontes previstas; o desenho do pipeline ainda está aberto:
+Caso: clima diário das cidades em `input/locations.csv`.
+O CSV manual acrescenta `region` e `rain_limit_mm`, que entram na view e no painel. A API não devolve esses campos.
+`include/ingest_daily_weather.py` grava `output/daily_weather.csv`, substituto temporário da tabela BigQuery.
+Backfill e catchup passam `--start-date` inclusivo e `--end-date` exclusivo.
+Tratamento na view SQL `daily_weather_report`. Painel no Data Studio.
+Documentação do repositório em português.
 
-- API Open-Meteo (https://open-meteo.com/en/docs)
-- Cloud Storage com arquivos manuais, para sensores e conexões
+## Estrutura
 
-- Documentação do repositório em português.
-- DAGs só em `dags/`. Apoio em `include/`. Plugins em `plugins/`.
-- Não colocar em `dags/` arquivos que não sejam DAGs; o `.airflowignore` usa glob.
-- Não versionar `airflow_settings.yaml`. Não commitar `.env`.
-- Não implementar pipeline novo sem o usuário pedir.
+Um repositório para um deployment. Base: [Manage Airflow code](https://www.astronomer.io/docs/airflow/managing-airflow-code).
+
+- `dags/` — só DAGs. O que não for DAG fica de fora; `dags/.airflowignore` usa glob.
+- `include/` — for any scripts that your DAGs might need to access. SQL e arquivos de apoio também ficam aqui.
+- `plugins/` — plugins customizados ou da comunidade.
+- `Dockerfile` — imagem do Astro Runtime.
+- `requirements.txt` — pacotes Python.
+- `packages.txt` — pacotes de sistema.
+- `input/` — CSV manual só para desenvolvimento local. O Airflow não executa nem enxerga essa pasta.
+- `output/` — CSV local no lugar do BigQuery. Não versionar.
+
+Código reutilizado entre projetos fica em outro repositório. Não versionar `airflow_settings.yaml` nem `.env`. Não criar DAG nem carregar o BigQuery até o usuário pedir.
